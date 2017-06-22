@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
 
 
 def plot_spectrogram(sound_analysis, sides='onesided', Fs=44100, NFFT=2048, noverlap=1024):
@@ -69,10 +70,11 @@ class MultibandPlot:
             plt.setp(ax.get_yticklabels(), visible=False)
             ax.set_ymargin(0)
             ax.set_xticks([0, self.msa.bands[0].len])
+            ax.xaxis.set_major_formatter(FuncFormatter(lambda x, pos: str(float(x) / 44100)))
         plt.setp(axes[-1].get_yticklabels(), visible=True)
         plt.setp(axes[-1].get_xticklabels(), visible=True)
-        axes[0].set_yticks([0, round(axes[0].get_ylim()[1] - 0.015, 2)])
-
+        axes[0].set_yticks([0, round(axes[0].get_ylim()[1] - axes[0].get_ylim()[1] * 0.05, 2)])
+        plt.xlabel('Time (seconds)')
         plt.plot()
 
         if to_fig is not None:
